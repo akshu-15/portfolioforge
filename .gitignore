@@ -37,3 +37,4 @@ dist
 .workspace/
 .lovable/
 .agents/
+.vercel/

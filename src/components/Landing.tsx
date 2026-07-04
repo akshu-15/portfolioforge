@@ -817,7 +817,17 @@ function Footer() {
         </div>
 
         <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="text-xs text-muted-foreground">© 2026 PortfolioForge. All rights reserved.</div>
+          <div className="text-xs text-muted-foreground text-center sm:text-left">
+            PortfolioForge © 2026 • Built by{" "}
+            <a
+              href="https://in.linkedin.com/in/akshaya-kv-a30877348"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground hover:underline transition-colors"
+            >
+              Akshaya KV
+            </a>
+          </div>
           <div className="text-xs text-muted-foreground inline-flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[oklch(0.7_0.16_150)] animate-pulse" />
             All systems operational
