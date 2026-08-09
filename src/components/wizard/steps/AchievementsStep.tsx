@@ -580,7 +580,11 @@ export const AchievementsStep = () => {
             Previous
           </Button>
 
-          <Button type="submit" size="lg" className="w-full sm:w-auto bg-gradient-brand text-white shadow-glow">
+          <Button
+            type="submit"
+            size="lg"
+            className="w-full sm:w-auto bg-gradient-brand text-white shadow-glow"
+          >
             Save & Continue
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>

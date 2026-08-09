@@ -705,7 +705,9 @@ export const ResumeUploadStep: React.FC = () => {
 
   // AI Enhancer state
   const [isBatchEnhancing, setIsBatchEnhancing] = React.useState(false);
-  const [batchEnhancedDescriptions, setBatchEnhancedDescriptions] = React.useState<Record<number, string>>({});
+  const [batchEnhancedDescriptions, setBatchEnhancedDescriptions] = React.useState<
+    Record<number, string>
+  >({});
   const [batchEnhanceError, setBatchEnhanceError] = React.useState<string | null>(null);
 
   // ── File validation ──
@@ -962,12 +964,14 @@ export const ResumeUploadStep: React.FC = () => {
               : prev.experience,
           achievements: {
             ...prev.achievements,
-            resumeFile: file ? {
-              name: file.name,
-              size: formatSize(file.size),
-              type: file.name.endsWith(".pdf") ? "PDF" : "DOCX",
-              fileData: resumeFileData,
-            } : prev.achievements?.resumeFile,
+            resumeFile: file
+              ? {
+                  name: file.name,
+                  size: formatSize(file.size),
+                  type: file.name.endsWith(".pdf") ? "PDF" : "DOCX",
+                  fileData: resumeFileData,
+                }
+              : prev.achievements?.resumeFile,
             certifications: mergedCertifications,
             awards:
               result.achievements?.awards?.length > 0
@@ -1007,17 +1011,20 @@ export const ResumeUploadStep: React.FC = () => {
   // ── Batch AI Enhancer ──
   const handleEnhanceAll = async () => {
     if (!parsed || parsed.projects.length === 0) return;
-    
+
     setIsBatchEnhancing(true);
     setBatchEnhanceError(null);
 
     try {
-      const projectsToEnhance = parsed.projects.map((p, i) => ({ idx: i, description: p.description }));
+      const projectsToEnhance = parsed.projects.map((p, i) => ({
+        idx: i,
+        description: p.description,
+      }));
       const enhancePrompt = `Rewrite these project descriptions to sound more impressive and technical for a developer portfolio. Keep them 1-2 sentences each, use strong verbs/technologies. Return a JSON array of strings in the exact same order as the input.\n\nProjects:\n${JSON.stringify(projectsToEnhance)}`;
 
       const apiKey = import.meta.env.VITE_GROQ_API_KEY;
       if (!apiKey) throw new Error("VITE_GROQ_API_KEY missing");
-      
+
       const response = await fetch(GROQ_ENDPOINT, {
         method: "POST",
         headers: {
@@ -1029,7 +1036,8 @@ export const ResumeUploadStep: React.FC = () => {
           messages: [
             {
               role: "system",
-              content: "You are a helpful assistant that enhances resume content. Return ONLY a JSON array of strings.",
+              content:
+                "You are a helpful assistant that enhances resume content. Return ONLY a JSON array of strings.",
             },
             { role: "user", content: enhancePrompt },
           ],
@@ -1049,7 +1057,7 @@ export const ResumeUploadStep: React.FC = () => {
       enhancedArray.forEach((desc: string, i: number) => {
         if (projectsToEnhance[i]) newDescriptions[projectsToEnhance[i].idx] = desc;
       });
-      
+
       setBatchEnhancedDescriptions(newDescriptions);
     } catch (err: unknown) {
       setBatchEnhanceError(getErrorMessage(err, "Batch enhancement failed."));
@@ -1684,7 +1692,13 @@ export const ResumeUploadStep: React.FC = () => {
 
       {/* ── NAVIGATION ── */}
       <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-3 pt-6 border-t border-white/5">
-        <Button type="button" variant="outline" size="lg" onClick={goToPrevious} className="w-full sm:w-auto glass">
+        <Button
+          type="button"
+          variant="outline"
+          size="lg"
+          onClick={goToPrevious}
+          className="w-full sm:w-auto glass"
+        >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Previous
         </Button>

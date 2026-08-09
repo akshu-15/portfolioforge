@@ -97,8 +97,6 @@ function getLanguageDistribution(languages: string[]): LanguageDistribution[] {
   }));
 }
 
-
-
 function getName(portfolio: PublishedPortfolio): string {
   return (
     portfolio.personal.name ||
@@ -255,7 +253,6 @@ export function PublicPortfolio({ portfolio }: PublicPortfolioProps) {
     ? getLanguageDistribution(portfolio.githubAnalytics.topLanguages)
     : [];
 
-
   return (
     <main className="portfolio-site" data-portfolio-theme={portfolio.theme}>
       <div className="portfolio-ambient" aria-hidden="true">
@@ -345,9 +342,7 @@ export function PublicPortfolio({ portfolio }: PublicPortfolioProps) {
               <div className="portfolio-portrait-placeholder">{name[0]}</div>
             )}
           </div>
-          <div className="portfolio-portrait-role">
-            {theme.label}
-          </div>
+          <div className="portfolio-portrait-role">{theme.label}</div>
           <div className="portfolio-orbit-badge">
             <Sparkles /> Open to meaningful work
           </div>
@@ -658,19 +653,23 @@ export function PublicPortfolio({ portfolio }: PublicPortfolioProps) {
                   </div>
                 )}
 
-                {portfolio.githubAnalytics.topRepo && portfolio.githubAnalytics.topRepo !== "No public repositories" && (
-                  <div className="portfolio-github-insight-card">
-                    <div className="portfolio-github-insight-icon">
-                      <Star />
-                    </div>
-                    <div className="portfolio-github-insight-content">
-                      <div className="portfolio-github-insight-value" title={portfolio.githubAnalytics.topRepo}>
-                        {portfolio.githubAnalytics.topRepo}
+                {portfolio.githubAnalytics.topRepo &&
+                  portfolio.githubAnalytics.topRepo !== "No public repositories" && (
+                    <div className="portfolio-github-insight-card">
+                      <div className="portfolio-github-insight-icon">
+                        <Star />
                       </div>
-                      <div className="portfolio-github-insight-label">Most Starred Project</div>
+                      <div className="portfolio-github-insight-content">
+                        <div
+                          className="portfolio-github-insight-value"
+                          title={portfolio.githubAnalytics.topRepo}
+                        >
+                          {portfolio.githubAnalytics.topRepo}
+                        </div>
+                        <div className="portfolio-github-insight-label">Most Starred Project</div>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
                 {portfolio.githubAnalytics.createdAt && (
                   <div className="portfolio-github-insight-card">
@@ -691,19 +690,20 @@ export function PublicPortfolio({ portfolio }: PublicPortfolioProps) {
               </div>
             </div>
 
-            {portfolio.githubAnalytics.topRepositories && portfolio.githubAnalytics.topRepositories.length > 0 && (
-              <div className="portfolio-github-repositories">
-                <div className="portfolio-github-section-label">Top repositories</div>
-                <ul className="portfolio-github-repos-list">
-                  {portfolio.githubAnalytics.topRepositories.slice(0, 5).map((repo) => (
-                    <li key={repo} className="portfolio-github-repo-item">
-                      <span className="portfolio-github-repo-bullet">•</span>
-                      <span className="portfolio-github-repo-name">{repo}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {portfolio.githubAnalytics.topRepositories &&
+              portfolio.githubAnalytics.topRepositories.length > 0 && (
+                <div className="portfolio-github-repositories">
+                  <div className="portfolio-github-section-label">Top repositories</div>
+                  <ul className="portfolio-github-repos-list">
+                    {portfolio.githubAnalytics.topRepositories.slice(0, 5).map((repo) => (
+                      <li key={repo} className="portfolio-github-repo-item">
+                        <span className="portfolio-github-repo-bullet">•</span>
+                        <span className="portfolio-github-repo-name">{repo}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
           </motion.div>
         </section>
       )}

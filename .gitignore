@@ -38,3 +38,7 @@ dist
 .lovable/
 .agents/
 .vercel/
+# Firebase Service Account Credentials
+*-service-account.json
+firebase-adminsdk-*.json
+serviceAccountKey.json

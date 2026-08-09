@@ -14,7 +14,15 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useWizard } from "@/components/wizard/WizardContext";
-import { Plus, Trash2, Calendar, GraduationCap, ArrowLeft, ArrowRight, BookOpen } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  Calendar,
+  GraduationCap,
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Schema for a single education entry
@@ -25,7 +33,11 @@ const educationItemSchema = z.object({
   startYear: z.string().regex(/^\d{4}$/, "Must be a 4-digit year"),
   graduationYear: z.string().regex(/^\d{4}$/, "Must be a 4-digit year"),
   cgpa: z.string().min(1, "CGPA or percentage is required").max(10),
-  description: z.string().max(200, "Description cannot exceed 200 characters").optional().or(z.literal("")),
+  description: z
+    .string()
+    .max(200, "Description cannot exceed 200 characters")
+    .optional()
+    .or(z.literal("")),
 });
 
 type EducationFormValues = z.infer<typeof educationItemSchema>;
@@ -167,9 +179,11 @@ export const EducationStep = () => {
                   <BookOpen className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-foreground">{edu.degree} in {edu.fieldOfStudy}</h4>
+                  <h4 className="font-semibold text-foreground">
+                    {edu.degree} in {edu.fieldOfStudy}
+                  </h4>
                   <p className="text-sm text-muted-foreground">{edu.institution || edu.school}</p>
-                  
+
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-1.5 text-[11px] text-muted-foreground font-mono">
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
@@ -180,7 +194,7 @@ export const EducationStep = () => {
                       CGPA: {edu.cgpa}
                     </span>
                   </div>
-                  
+
                   {edu.description && (
                     <p className="text-xs text-muted-foreground/80 mt-2 italic max-w-lg">
                       "{edu.description}"
@@ -216,7 +230,10 @@ export const EducationStep = () => {
       {/* Form to Add / Edit */}
       {isAdding && (
         <Form {...form}>
-          <form onSubmit={handleSubmit(handleAddOrUpdate)} className="space-y-4 glass-strong p-4 sm:p-5 rounded-2xl border border-white/10">
+          <form
+            onSubmit={handleSubmit(handleAddOrUpdate)}
+            className="space-y-4 glass-strong p-4 sm:p-5 rounded-2xl border border-white/10"
+          >
             <div className="text-sm font-bold text-foreground mb-2">
               {editingIdx !== null ? "Edit Education Entry" : "Add Education Entry"}
             </div>
@@ -228,7 +245,11 @@ export const EducationStep = () => {
                 <FormItem>
                   <FormLabel>School / College / University</FormLabel>
                   <FormControl>
-                    <Input placeholder="Vellore Institute of Technology" className="glass" {...field} />
+                    <Input
+                      placeholder="Vellore Institute of Technology"
+                      className="glass"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -329,11 +350,21 @@ export const EducationStep = () => {
 
             <div className="flex items-center gap-2 justify-end pt-2">
               {state.education.length > 0 && (
-                <Button type="button" variant="outline" size="sm" onClick={handleCancel} className="glass">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCancel}
+                  className="glass"
+                >
                   Cancel
                 </Button>
               )}
-              <Button type="submit" size="sm" className="bg-[var(--cyan-accent)] text-background hover:bg-[var(--cyan-accent)]/80">
+              <Button
+                type="submit"
+                size="sm"
+                className="bg-[var(--cyan-accent)] text-background hover:bg-[var(--cyan-accent)]/80"
+              >
                 {editingIdx !== null ? "Update Entry" : "Add Entry"}
               </Button>
             </div>

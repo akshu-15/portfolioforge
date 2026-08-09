@@ -645,7 +645,13 @@ export const SkillsStep = () => {
 
       {/* Navigation Buttons */}
       <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-3 pt-6 border-t border-white/5">
-        <Button type="button" variant="outline" size="lg" onClick={goToPrevious} className="w-full sm:w-auto glass">
+        <Button
+          type="button"
+          variant="outline"
+          size="lg"
+          onClick={goToPrevious}
+          className="w-full sm:w-auto glass"
+        >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Previous
         </Button>

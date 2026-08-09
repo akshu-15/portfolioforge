@@ -14,7 +14,16 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useWizard, type Experience } from "@/components/wizard/WizardContext";
-import { Plus, Trash2, Briefcase, ArrowLeft, ArrowRight, Calendar, MapPin, Building } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  Briefcase,
+  ArrowLeft,
+  ArrowRight,
+  Calendar,
+  MapPin,
+  Building,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 // Schema for a single experience entry
@@ -24,7 +33,10 @@ const experienceItemSchema = z.object({
   startDate: z.string().min(1, "Start Date is required"),
   endDate: z.string().min(1, "End Date (or 'Present') is required"),
   location: z.string().max(100).optional().or(z.literal("")),
-  description: z.string().min(1, "Job description is required").max(300, "Description cannot exceed 300 characters"),
+  description: z
+    .string()
+    .min(1, "Job description is required")
+    .max(300, "Description cannot exceed 300 characters"),
 });
 
 type ExperienceFormValues = z.infer<typeof experienceItemSchema>;
@@ -164,11 +176,12 @@ export const ExperienceStep = () => {
                 <div>
                   <h4 className="font-semibold text-foreground">{exp.position || exp.role}</h4>
                   <p className="text-sm text-muted-foreground">{exp.company}</p>
-                  
+
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted-foreground mt-2 font-mono">
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />
-                      {exp.startDate || (exp.duration ? exp.duration.split(" - ")[0] : "")} – {exp.endDate || (exp.duration ? exp.duration.split(" - ")[1] : "")}
+                      {exp.startDate || (exp.duration ? exp.duration.split(" - ")[0] : "")} –{" "}
+                      {exp.endDate || (exp.duration ? exp.duration.split(" - ")[1] : "")}
                     </span>
                     {exp.location && (
                       <span className="flex items-center gap-1">
@@ -177,7 +190,7 @@ export const ExperienceStep = () => {
                       </span>
                     )}
                   </div>
-                  
+
                   <p className="text-xs text-muted-foreground/80 mt-2 italic max-w-lg">
                     {exp.description}
                   </p>
@@ -211,7 +224,10 @@ export const ExperienceStep = () => {
       {/* Form to Add / Edit */}
       {isAdding && (
         <Form {...form}>
-          <form onSubmit={handleSubmit(handleAddOrUpdate)} className="space-y-4 glass-strong p-4 sm:p-5 rounded-2xl border border-white/10">
+          <form
+            onSubmit={handleSubmit(handleAddOrUpdate)}
+            className="space-y-4 glass-strong p-4 sm:p-5 rounded-2xl border border-white/10"
+          >
             <div className="text-sm font-bold text-foreground mb-2">
               {editingIdx !== null ? "Edit Experience Entry" : "Add Experience Entry"}
             </div>
@@ -238,7 +254,11 @@ export const ExperienceStep = () => {
                   <FormItem>
                     <FormLabel>Position / Job Title</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Software Engineer Intern" className="glass" {...field} />
+                      <Input
+                        placeholder="e.g. Software Engineer Intern"
+                        className="glass"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -283,7 +303,11 @@ export const ExperienceStep = () => {
                 <FormItem>
                   <FormLabel>Location (Optional)</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Bengaluru, India (or Remote)" className="glass" {...field} />
+                    <Input
+                      placeholder="e.g. Bengaluru, India (or Remote)"
+                      className="glass"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -310,11 +334,21 @@ export const ExperienceStep = () => {
 
             <div className="flex items-center gap-2 justify-end pt-2">
               {state.experience.length > 0 && (
-                <Button type="button" variant="outline" size="sm" onClick={handleCancel} className="glass">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleCancel}
+                  className="glass"
+                >
                   Cancel
                 </Button>
               )}
-              <Button type="submit" size="sm" className="bg-[var(--cyan-accent)] text-background hover:bg-[var(--cyan-accent)]/80">
+              <Button
+                type="submit"
+                size="sm"
+                className="bg-[var(--cyan-accent)] text-background hover:bg-[var(--cyan-accent)]/80"
+              >
                 {editingIdx !== null ? "Update Entry" : "Add Entry"}
               </Button>
             </div>

@@ -1,5 +1,6 @@
 import type { WizardState } from "@/components/wizard/WizardContext";
-import { supabase } from "./supabase";
+import { db } from "./firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const PORTFOLIO_STORAGE_PREFIX = "portfolioforge:portfolio:";
 const PORTFOLIO_DB_NAME = "portfolioforge";
@@ -120,37 +121,83 @@ async function getPortfolioFromIndexedDb(id: string): Promise<PublishedPortfolio
   }
 }
 
-async function savePortfolioToRemote(portfolio: PublishedPortfolio): Promise<void> {
-  const { error } = await supabase
-    .from("portfolios")
-    .upsert({
-      id: portfolio.id,
-      data: portfolio,
-      published_at: portfolio.publishedAt,
+// Helper to sanitize the document to fit within Firestore's limits and constraints
+function sanitizeForFirestore(obj: any): any {
+  if (obj === undefined || obj === null) return null;
+  if (typeof obj === "string") {
+    // Firestore limit is 1MiB per document.
+    // A document with multiple 300KB Base64 files can easily exceed 1MiB total.
+    // Omitting any base64 string > 50KB ensures we safely stay under limits.
+    if (obj.startsWith("data:") && obj.length > 50000) {
+      console.log(`\n    ⚠️ Oversized base64 string detected (${(obj.length / 1024).toFixed(2)} KB). Omitting to fit Firestore limits.`);
+      return null;
+    }
+    // Catch any other massive string > 500KB.
+    if (obj.length > 500000) {
+      console.log(`\n    ⚠️ Oversized string detected (${(obj.length / 1024).toFixed(2)} KB). Omitting to fit Firestore limits.`);
+      return null;
+    }
+    return obj;
+  }
+  if (Array.isArray(obj)) {
+    return obj.map((item) => {
+      if (Array.isArray(item)) {
+        return { ...sanitizeForFirestore(item) };
+      }
+      return sanitizeForFirestore(item);
     });
+  }
+  if (typeof obj === "object") {
+    const newObj: any = {};
+    for (const [k, v] of Object.entries(obj)) {
+      if (k === "") continue; 
+      if (v === undefined) continue;
+      newObj[k] = sanitizeForFirestore(v);
+    }
+    return newObj;
+  }
+  return obj;
+}
 
-  if (error) {
-    console.error("Supabase upsert error:", error);
+async function savePortfolioToRemote(portfolio: PublishedPortfolio): Promise<void> {
+  try {
+    const sanitizedData = sanitizeForFirestore(portfolio);
+    
+    const payload = {
+      data: sanitizedData,
+      published_at: portfolio.publishedAt,
+      created_at: new Date().toISOString(),
+    };
+
+    // Measure and log approximate document size before saving
+    const approxSizeBytes = new Blob([JSON.stringify(payload)]).size;
+    console.log(`[Firestore Save] Approximate document size: ${(approxSizeBytes / 1024).toFixed(2)} KB`);
+
+    if (approxSizeBytes > 900000) {
+      console.warn("⚠️ Warning: Document size is very close to Firestore's 1 MiB limit!");
+    }
+    
+    await setDoc(doc(db, "portfolios", portfolio.id), payload, { merge: true });
+  } catch (error) {
+    console.error("Firebase save error:", error);
     throw new Error("Failed remote save");
   }
 }
 
 async function getPortfolioFromRemote(id: string): Promise<PublishedPortfolio | null> {
-  const { data, error } = await supabase
-    .from("portfolios")
-    .select("data")
-    .eq("id", id)
-    .single();
+  try {
+    const docRef = doc(db, "portfolios", id);
+    const docSnap = await getDoc(docRef);
 
-  if (error || !data) {
-    if (error && error.code !== "PGRST116") {
-      console.error("Supabase fetch error:", error);
-      throw new Error("Failed remote load");
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      return data.data as PublishedPortfolio;
     }
     return null;
+  } catch (error) {
+    console.error("Firebase fetch error:", error);
+    throw new Error("Failed remote load");
   }
-
-  return data.data as PublishedPortfolio;
 }
 
 export function validatePortfolioData(state: WizardState): string[] {

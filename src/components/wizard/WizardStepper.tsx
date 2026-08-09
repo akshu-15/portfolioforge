@@ -1,6 +1,16 @@
 import * as React from "react";
 import { useWizard, type WizardStep } from "./WizardContext";
-import { User, GraduationCap, Code2, FolderGit2, Briefcase, Palette, Check, Trophy, FileText } from "lucide-react";
+import {
+  User,
+  GraduationCap,
+  Code2,
+  FolderGit2,
+  Briefcase,
+  Palette,
+  Check,
+  Trophy,
+  FileText,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const STEPS: { id: WizardStep; label: string; icon: React.ComponentType<any> }[] = [
@@ -16,9 +26,10 @@ const STEPS: { id: WizardStep; label: string; icon: React.ComponentType<any> }[]
 export const WizardStepper = () => {
   const { state } = useWizard();
   const currentStepIndex = STEPS.findIndex((s) => s.id === state.step);
-  const currentStep = currentStepIndex >= 0
-    ? STEPS[currentStepIndex]
-    : { id: state.step, label: "Achievements", icon: Trophy };
+  const currentStep =
+    currentStepIndex >= 0
+      ? STEPS[currentStepIndex]
+      : { id: state.step, label: "Achievements", icon: Trophy };
 
   const progress = currentStepIndex > 0 ? (currentStepIndex / STEPS.length) * 100 : 0;
 
@@ -66,8 +77,8 @@ export const WizardStepper = () => {
                   isCompleted
                     ? "bg-gradient-brand text-white border-transparent shadow-[0_0_15px_rgba(99,102,241,0.4)]"
                     : isActive
-                    ? "bg-background border-[var(--cyan-accent)] text-[var(--cyan-accent)] shadow-[0_0_15px_rgba(6,182,212,0.3)] ring-2 ring-[var(--cyan-accent)]/20 scale-105"
-                    : "bg-surface border-white/5 text-muted-foreground"
+                      ? "bg-background border-[var(--cyan-accent)] text-[var(--cyan-accent)] shadow-[0_0_15px_rgba(6,182,212,0.3)] ring-2 ring-[var(--cyan-accent)]/20 scale-105"
+                      : "bg-surface border-white/5 text-muted-foreground",
                 )}
               >
                 {isCompleted ? (
@@ -79,7 +90,7 @@ export const WizardStepper = () => {
               <span
                 className={cn(
                   "text-[10px] font-semibold mt-2 hidden sm:block tracking-wide uppercase transition-colors",
-                  isActive ? "text-foreground font-bold" : "text-muted-foreground"
+                  isActive ? "text-foreground font-bold" : "text-muted-foreground",
                 )}
               >
                 {s.label}

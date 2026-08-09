@@ -1036,7 +1036,10 @@
   height: 1.5rem;
   border-radius: 50%;
   color: var(--pf-muted);
-  transition: color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 .portfolio-github-icon-button:hover {
   color: var(--pf-accent);
@@ -1261,7 +1264,6 @@
   text-overflow: ellipsis;
   min-width: 0;
 }
-
 
 .portfolio-background-grid {
   display: grid;

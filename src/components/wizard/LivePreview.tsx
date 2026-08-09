@@ -61,8 +61,7 @@ const PREVIEW_DEMO = {
     },
     {
       name: "Portfolio Builder",
-      description:
-        "A portfolio generator that turns resume data into polished developer websites.",
+      description: "A portfolio generator that turns resume data into polished developer websites.",
       technologies: ["React", "TypeScript", "Tailwind CSS"],
       link: "https://portfolioforge.ai",
       githubLink: "https://github.com/demo-user/portfolio-builder",
@@ -70,8 +69,7 @@ const PREVIEW_DEMO = {
     },
     {
       name: "Task Management Dashboard",
-      description:
-        "Real-time collaborative task board with drag-and-drop and team analytics.",
+      description: "Real-time collaborative task board with drag-and-drop and team analytics.",
       technologies: ["Node.js", "React", "PostgreSQL"],
       link: "",
       githubLink: "https://github.com/demo-user/task-dashboard",
@@ -142,9 +140,7 @@ export const LivePreview: React.FC<LivePreviewProps> = ({ isMobileSheet }) => {
         ? `${personal.firstName} ${personal.lastName}`
         : "Akshaya KV";
 
-  const roleText = useDemoPreview
-    ? PREVIEW_DEMO.role
-    : personal.role || "Full Stack Developer";
+  const roleText = useDemoPreview ? PREVIEW_DEMO.role : personal.role || "Full Stack Developer";
   const taglineText = useDemoPreview
     ? PREVIEW_DEMO.tagline
     : personal.tagline || "Crafting interactive, high-performance web applications.";

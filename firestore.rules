@@ -1,0 +1,33 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Deny access to all collections by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    match /portfolios/{portfolioId} {
+      // 1. PUBLIC READ: Anyone can read a published portfolio
+      allow read: if true;
+      
+      // 2. CREATE: Unauthenticated users can create a new portfolio.
+      // We ensure they provide the expected data structure.
+      allow create: if 
+        request.resource.data.keys().hasAll(['data', 'published_at', 'created_at']) &&
+        request.resource.data.data is map;
+        
+      // 3. UPDATE: Unauthenticated users must be able to update their portfolio
+      // when they click "Generate" again in the browser (which fires setDoc with merge: true).
+      // Because there is no authentication, we cannot restrict this to the original creator.
+      // We enforce the same structural validation to prevent arbitrary data corruption.
+      allow update: if 
+        request.resource.data.keys().hasAll(['data', 'published_at', 'created_at']) &&
+        request.resource.data.data is map;
+        
+      // 4. NO DELETE: Prevent destructive operations entirely.
+      allow delete: if false;
+    }
+  }
+}

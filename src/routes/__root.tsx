@@ -78,10 +78,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "PortfolioForge — Recruiter-Ready Developer Portfolios in Minutes" },
-      { name: "description", content: "Upload your resume and let AI generate a stunning, recruiter-ready developer portfolio website in minutes. No coding required." },
+      {
+        name: "description",
+        content:
+          "Upload your resume and let AI generate a stunning, recruiter-ready developer portfolio website in minutes. No coding required.",
+      },
       { name: "author", content: "PortfolioForge" },
       { property: "og:title", content: "PortfolioForge — Recruiter-Ready Developer Portfolios" },
-      { property: "og:description", content: "Turn your resume into a stunning developer portfolio in minutes." },
+      {
+        property: "og:description",
+        content: "Turn your resume into a stunning developer portfolio in minutes.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@PortfolioForge" },
@@ -89,7 +96,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap",
+      },
       { rel: "stylesheet", href: appCss },
     ],
   }),
@@ -113,7 +123,6 @@ function RootShell({ children }: { children: ReactNode }) {
     </html>
   );
 }
-
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();

@@ -42,8 +42,20 @@ const MetricCard = ({ title, value, detail, icon: Icon, accent }: MetricCardProp
       </span>
       <Icon className={cn("h-4 w-4 shrink-0 text-[var(--cyan-accent)]", accent)} />
     </div>
-    <div className="mt-3 text-2xl font-extrabold tracking-tight text-foreground line-clamp-2 [overflow-wrap:anywhere]" title={value}>{value}</div>
-    {detail && <p className="mt-1 text-[11px] leading-normal text-muted-foreground line-clamp-3 [overflow-wrap:anywhere]" title={detail}>{detail}</p>}
+    <div
+      className="mt-3 text-2xl font-extrabold tracking-tight text-foreground line-clamp-2 [overflow-wrap:anywhere]"
+      title={value}
+    >
+      {value}
+    </div>
+    {detail && (
+      <p
+        className="mt-1 text-[11px] leading-normal text-muted-foreground line-clamp-3 [overflow-wrap:anywhere]"
+        title={detail}
+      >
+        {detail}
+      </p>
+    )}
   </div>
 );
 
